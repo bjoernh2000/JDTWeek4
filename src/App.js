@@ -1,26 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: ["Milk", "Eggs", "Cheese", "Pastries"],
+      value: "",
+    };
+  }
+
+  handleAdd = (item) => {
+    const list = this.state.list;
+    list.push(item);
+    this.setState({ list });
+    console.log(list);
+    this.setState({ value: "" });
+  };
+
+  handleRemove = () => {
+    const list = this.state.list;
+    list.pop();
+    this.setState({ list });
+    console.log(list);
+  };
+
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  };
+
+  render() {
+    return (
+      <div class="container">
+        <button
+          class="button"
+          onClick={this.handleRemove}
+          disabled={this.state.list.length === 0 ? "disabled" : ""}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          Remove Item
+        </button>
+        <br />
+        <input
+          class="input"
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+        <br />
+        <button class="button" onClick={() => this.handleAdd(this.state.value)}>
+          Add Item
+        </button>
+
+        <ol type="A">
+          {this.state.list.map((item, index) => (
+            <li>{item}</li>
+          ))}
+        </ol>
+      </div>
+    );
+  }
 }
 
 export default App;
